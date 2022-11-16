@@ -24,5 +24,8 @@
             "name": "ACTINEOS",
             "email": "Pablo.Leone.extern@actineo.de"
         }
-    ]
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }
