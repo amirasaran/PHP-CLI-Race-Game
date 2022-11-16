@@ -18,6 +18,6 @@ class RaceCalculator
 
     public function getTimeToFinish(): float
     {
-        return $this->vehicle->getSpeed()->toMetersPerSecond() * $this->distance;
+        return $this->distance / $this->vehicle->getSpeed()->toMetersPerSecond();
     }
 }

@@ -17,7 +17,7 @@ class RacerObject
 
     public function getRoundedTimeToFinish(): float
     {
-        return round($this->getTimeToFinish(), 2);
+        return round($this->getTimeToFinish(), 4);
     }
 
     public function setTimeToFinish($timeToFinish)
