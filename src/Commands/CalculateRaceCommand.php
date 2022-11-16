@@ -4,6 +4,7 @@ namespace Actineos\PhpCliRaceGameTest\Commands;
 
 use Actineos\PhpCliRaceGameTest\Library\Console\AbstractCommand;
 use Actineos\PhpCliRaceGameTest\Library\Race\RaceService;
+use Actineos\PhpCliRaceGameTest\Object\Vehicle;
 use Actineos\PhpCliRaceGameTest\Repository\VehicleRepository;
 
 /**
@@ -27,6 +28,11 @@ class CalculateRaceCommand extends AbstractCommand
         parent::boot();
     }
 
+    /**
+     * @param array $options
+     * @return void
+     * @throws \Actineos\PhpCliRaceGameTest\Exception\InvalidDistanceException
+     */
     public function handle(array $options = []): void
     {
         $numberOfParticipants = $options['number_of_vehicle'];
@@ -36,16 +42,7 @@ class CalculateRaceCommand extends AbstractCommand
         $this->stdout("{$numberOfParticipants} vehicle(s) in the race");
 
         $vehicles = VehicleRepository::all();
-        $vehicleNames = array_map(fn($item) => $item->getName(), $vehicles);
-        $participates = [];
-        foreach (range(1, $numberOfParticipants) as $participateNumber) {
-            $selectedIndex = $this->menu(
-                $vehicleNames,
-                null,
-                "Pick a vehicle(Participate Number #{$participateNumber})",
-            );
-            $participates[$participateNumber] = $vehicles[$selectedIndex];
-        }
+        $participates = $this->requestPickVehicles($vehicles, $numberOfParticipants);
         $distance = $this->requestRaceDistance();
 
         $raceService = new RaceService(array_values($participates), $distance);
@@ -58,7 +55,11 @@ class CalculateRaceCommand extends AbstractCommand
     }
 
 
-    function requestRaceDistance(string $msg = 'What distance in meters does cover the race?'): int
+    /**
+     * @param string $msg
+     * @return int
+     */
+    private function requestRaceDistance(string $msg = 'What distance in meters does cover the race?'): int
     {
         $value = $this->prompt($msg, 0, ' ');
         if (!is_numeric($value)) {
@@ -68,6 +69,26 @@ class CalculateRaceCommand extends AbstractCommand
         }
 
         return (int)$value;
+    }
+
+    /**
+     * @param Vehicle[] $vehicles
+     * @param int $numberOfParticipants
+     * @return array
+     */
+    private function requestPickVehicles(array $vehicles, int $numberOfParticipants): array
+    {
+        $vehicleNames = array_map(fn($item) => $item->getName(), $vehicles);
+        $participates = [];
+        foreach (range(1, $numberOfParticipants) as $participateNumber) {
+            $selectedIndex = $this->menu(
+                $vehicleNames,
+                null,
+                "Pick a vehicle(Participate Number #{$participateNumber})",
+            );
+            $participates[$participateNumber] = $vehicles[$selectedIndex];
+        }
+        return $participates;
     }
 
 }
