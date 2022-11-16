@@ -1,0 +1,6 @@
+{
+    "speed": {
+        "value": 0,
+        "unit": "knots|kmh|mph"
+    }
+}

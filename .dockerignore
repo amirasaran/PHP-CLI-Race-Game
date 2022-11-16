@@ -1,0 +1,7 @@
+.git/
+vendor/
+.editorconfig
+.idea/
+.DS_Store
+.phpunit.result.cache
+.gitignore
