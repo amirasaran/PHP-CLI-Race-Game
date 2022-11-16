@@ -16,7 +16,7 @@ class VehicleRepository extends FileBaseRepository
     public static function all(): array
     {
         $objects = [];
-        foreach (self::getVehicleOptions() as $vehicleOption) {
+        foreach (self::getFileOptions() as $vehicleOption) {
             $jsonData = self::getJsonObject($vehicleOption);
             $objects[] = new Vehicle([
                 'name' => removeExtension($vehicleOption),

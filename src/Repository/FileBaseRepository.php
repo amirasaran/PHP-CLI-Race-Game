@@ -8,7 +8,7 @@ abstract class FileBaseRepository implements FileBaseRepositoryInterface
 
     abstract protected static function getFilesPath(): string;
 
-    protected static function getVehicleOptions(): array
+    protected static function getFileOptions(): array
     {
         return array_diff(scandir(static::getFilesPath()), array('..', '.'));
     }
