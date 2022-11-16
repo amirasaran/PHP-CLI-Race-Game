@@ -55,12 +55,12 @@ class AbstractKernel
 
     /**
      * @param string $name
-     * @param $class
+     * @param string $class
      * @return void
      * This function helps you to register a new command to the kernel
      * this function must be called in the boot function in the Kernel object
      */
-    protected function registerCommand(string $name, $class): void
+    protected function registerCommand(string $name, string $class): void
     {
         self::$commands[strtolower($name)] = $class;
     }
